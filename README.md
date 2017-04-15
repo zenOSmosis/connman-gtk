@@ -1,6 +1,14 @@
 connman-gtk
 ===========
 
+This repository contains connman-gtk imported from upstream repo with the 
+addition of debian packaging including the patch allowing main window to be 
+toggled by clicking on the tray icon.
+
+Original README is bellow.
+
+------------
+
 GTK GUI for ConnMan.
 
 ![screenshot-1](https://raw.githubusercontent.com/jgke/jgke.github.io/connman-gtk/connman-gtk-1.png)
