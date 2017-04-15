@@ -1,0 +1,11 @@
+connman-gtk (1.1.1-2) unstable; urgency=medium
+
+  * Add patch to enable toggling of main window from tray icon.
+
+ -- Filip Danilovic <filip@openmailbox.org>  Tue, 08 Nov 2016 20:07:08 +0100
+
+connman-gtk (1.1.1-1) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Filip Danilovic <filip@openmailbox.org>  Tue, 08 Nov 2016 19:08:55 +0100

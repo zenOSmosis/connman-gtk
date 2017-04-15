@@ -1,0 +1,93 @@
+Description: Allow toggling main window from tray icon.
+ So when a user pops up a main window to check the IP
+ or some other info, there is no need for mouse travel
+ to close the window back to tray...
+ .
+ connman-gtk (1.1.1-2) unstable; urgency=medium
+ .
+   * Add patch to enable toggling of main window from tray icon.
+Author: Filip Danilovic <filip@openmailbox.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: 2016-11-08
+
+--- connman-gtk-1.1.1.orig/src/main.c
++++ connman-gtk-1.1.1/src/main.c
+@@ -40,6 +40,7 @@ GHashTable *technology_types, *services;
+ GDBusProxy *manager_proxy, *vpn_manager_proxy;
+ struct technology *technologies[CONNECTION_TYPE_COUNT];
+ gboolean shutting_down = FALSE;
++gint first_pass = TRUE;
+ 
+ const gchar *default_page;
+ 
+@@ -611,27 +612,41 @@ static void startup(GtkApplication *app,
+ 
+ 	create_content();
+ 
+-	gtk_widget_show_all(main_window);
+-
+ #ifdef USE_STATUS_ICON
+ 	if(status_icon_enabled && !no_icon) {
+-		if(launch_to_tray)
+-			gtk_widget_hide(main_window);
++		if(!launch_to_tray)
++			gtk_widget_show_all(main_window);
+ 
+ 		g_signal_connect(main_window, "delete-event",
+ 				 G_CALLBACK(gtk_widget_hide_on_delete),
+ 				 main_window);
+ 		status_init(app);
+ 	}
++#else
++	gtk_widget_show_all(main_window);
+ #endif
+ }
+ 
+ static void activate(GtkApplication *app, gpointer user_data)
+ {
+ #ifdef USE_STATUS_ICON
+-	if(!launch_to_tray)
+-		gtk_widget_show(main_window);
+-	launch_to_tray = FALSE;
++
++	if(first_pass) {
++		first_pass = FALSE;
++	}
++	else {
++		if(!gtk_widget_get_visible(GTK_WIDGET(main_window))) {
++			if(!launch_to_tray) {
++				gtk_widget_show(main_window);
++			}
++			else {
++				gtk_widget_show_all(main_window);
++			}
++		}
++		else {
++			gtk_widget_hide(main_window);
++		}
++	}
+ #endif
+ }
+ 
+--- connman-gtk-1.1.1.orig/src/status.c
++++ connman-gtk-1.1.1/src/status.c
+@@ -84,7 +84,7 @@ static void status_menu(GtkStatusIcon *i
+ 
+ 	menu = GTK_MENU(gtk_menu_new());
+ 
+-	open = gtk_menu_item_new_with_label(_("Open app"));
++	open = gtk_menu_item_new_with_label(_("Show/Hide"));
+ 	exit = gtk_menu_item_new_with_label(_("Exit"));
+ 	g_signal_connect(open, "activate", G_CALLBACK(status_activate),
+ 			 user_data);

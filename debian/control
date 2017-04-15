@@ -1,0 +1,20 @@
+Source: connman-gtk
+Section: misc
+Priority: optional
+Maintainer: Filip Danilovic <filip@openmailbox.org>
+Build-Depends: debhelper (>= 9), intltool, libgtk-3-dev, libglib2.0-dev, connman-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/jgke/connman-gtk.git
+Vcs-Git: https://github.com/jgke/connman-gtk.git
+Vcs-Browser: https://github.com/jgke/connman-gtk.git
+
+Package: connman-gtk
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, connman
+Suggests: openconnect
+Description: GTK frontend for connman connection manager.
+ Provides an optional system tray icon showing network status,
+ as well as a nice GUI for managing connections.
+ .
+ Supports most of the connman features, including VPN and
+ tethering ( sharing a network connection ).
