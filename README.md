@@ -20,6 +20,7 @@ Dependencies
  * intltool
  * GLib
  * GTK >= 3.10
+ * connman itself
 
 Optional dependencies
 ---------------------
