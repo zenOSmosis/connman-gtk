@@ -18,9 +18,9 @@ Dependencies
 ------------
 
  * intltool
- * GLib
- * GTK >= 3.10
- * connman itself
+ * GLib (Ubuntu 16.04: sudo apt-get install libglib2.0-dev)
+ * GTK >= 3.10 (Ubuntu 16.04: sudo apt-get install libgtk-3-dev)
+ * connman itself (Ubuntu 16.04: sudp apt-get install connman)
 
 Optional dependencies
 ---------------------
